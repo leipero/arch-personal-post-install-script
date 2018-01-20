@@ -1,4 +1,4 @@
 # arch-personal-posti-nstall-script
 My personal script.
 
-If you end up using this script, please change it to suit your own system.
+If you end up using this script, please change it to suit your own system and/or needs.
