@@ -79,9 +79,6 @@ StandardError=journal+console'
 sudo sed -i "s|ExecStart=/usr/lib/systemd/systemd-fsck|$nfsckrl|g" $fsckrsd
 sudo sed -i "s|ExecStart=/usr/lib/systemd/systemd-fsck %f|$nfsckl|g" $fsckd
 
-sudo systemctl enable systemd-networkd.service
-sudo systemctl enable systemd-resolved.service
-
 #Uklanjanje nepotrebnih paketa / Removal of unnecassary packages
 sudo pacman -Rsn --noconfirm gnome-2048 aisleriot atomix gnome-chess five-or-more hitori iagno gnome-klotski lightsoff gnome-mahjongg gnome-mines gnome-nibbles quadrapassel four-in-a-row gnome-robots gnome-sudoku swell-foop tali gnome-taquin gnome-tetravex anjuta
 
