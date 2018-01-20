@@ -1,4 +1,5 @@
 #!/bin/bash
+
 export LC_ALL=C
 
 #Paketi / Packages
@@ -178,7 +179,7 @@ gsettings set io.github.GnomeMpv mpv-config-file ~/.mpv/mpv.conf
 gsettings set io.github.GnomeMpv mpv-input-config-enable 'true'
 gsettings set io.github.GnomeMpv mpv-input-config-file ~/.mpv/input.conf
 
-#Gašenje skripta / Shutdown skript
+#Gašenje skripta / Shutdown script
 mkdir ~/.skripte
 echo "#!/bin/bash
 sudo shutdown -h +90
