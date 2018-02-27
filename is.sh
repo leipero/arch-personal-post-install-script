@@ -4,7 +4,7 @@ export LC_ALL=C
 
 #Paketi / Packages
 sudo pacman -Syyu
-sudo pacman -S --noconfirm lib32-mesa mesa-demos
+sudo pacman -S --noconfirm xf86-video-ati lib32-mesa mesa-demos 
 sudo pacman -S --noconfirm ufw ffmpegthumbnailer gst-libav gst-plugins-base gst-plugins-good gtk-engine-murrine ntfs-3g gksu qt4 p7zip unrar qt5ct youtube-dl mpv file-roller xorg-fonts-type1 acpid dosfstools gparted plank ttf-freefont ttf-dejavu ttf-sazanami ttf-fireflysung noto-fonts-emoji ttf-symbola xorg-xlsfonts dnsmasq qt5-styleplugins clementine transmission-gtk firefox firefox-i18n-sr obs-studio wine-staging-nine chromium snes9x-gtk dolphin-emu nestopia pcsxr
 sudo pacman -S --noconfirm lib32-libpulse lib32-openal lib32-gnutls lib32-mpg123 lib32-libxml2 lib32-lcms2 lib32-giflib lib32-libpng lib32-alsa-lib lib32-alsa-plugins lib32-nss lib32-gtk2 lib32-gtk3 lib32-libcanberra lib32-gconf lib32-dbus-glib lib32-libnm-glib lib32-libudev0-shim libpng12 lib32-libpng12 lib32-libcurl-gnutls lib32-libcurl-compat lib32-libstdc++5 lib32-libxv lib32-ncurses lib32-sdl lib32-zlib lib32-libgcrypt lib32-libgcrypt15
 
@@ -15,6 +15,15 @@ echo "/dev/sdb1               /media/sdb1     ext4            defaults          
 echo "#CLUTTER_DEFAULT_FPS=120
 CLUTTER_VBLANK=none
 QT_QPA_PLATFORMTHEME=qt5ct" | sudo tee -a /etc/environment
+
+#X.Org
+echo "Section "Device"
+	Identifier "Radeon"
+	Driver "radeon"
+#	Option "AccelMethod" "exa"
+#	Option "TearFree" "on"
+#	Option "DRI" "2"
+EndSection" | sudo tee /etc/X11/xorg.conf.d/20-radeon.conf
 
 #Virtuelna memorija (podrazumevano "60") / Virtual memory (default "60")
 echo "vm.swappiness=0" | sudo tee /etc/sysctl.d/99-sysctl.conf
@@ -40,7 +49,7 @@ sudo tune2fs -m 0 /dev/sdb1
 sudo systemctl enable fstrim.timer
 
 #GDM onemogući "wayland" / GDM disable "wayland"
-sudo sed -i -e 's/#WaylandEnable=false/WaylandEnable=false/g' /etc/gdm/custom.conf
+#sudo sed -i -e 's/#WaylandEnable=false/WaylandEnable=false/g' /etc/gdm/custom.conf
 
 #Zaštitni zid / Uncomplicated firewall
 sudo ufw default deny
@@ -55,14 +64,14 @@ dns=systemd-resolved" | sudo tee -a /etc/NetworkManager/NetworkManager.conf
 sudo systemctl enable systemd-networkd.service
 sudo systemctl enable systemd-resolved.service
 
-#Tiho pokretanje / Silent boot 
+#Tiho pokretanje / Silent boot
 sudo sed -i -e 's/ fsck//g' /etc/mkinitcpio.conf
 sudo mkinitcpio -p linux
-sudo sed -i -e 's/#GRUB_HIDDEN_TIMEOUT=5/GRUB_HIDDEN_TIMEOUT=1/g' /etc/default/grub
-sudo sed -i -e 's/GRUB_TIMEOUT=5/GRUB_TIMEOUT=0/g' /etc/default/grub
-sudo sed -i -e 's/GRUB_CMDLINE_LINUX_DEFAULT="quiet"/GRUB_CMDLINE_LINUX_DEFAULT="quiet loglevel=3 udev.log-priority=3 vt.global_cursor_default=0"/g' /etc/default/grub
-sudo grub-mkconfig -o /boot/grub/grub.cfg
-sudo sed -i -e 's/echo/#echo/g' /boot/grub/grub.cfg
+#sudo sed -i -e 's/#GRUB_HIDDEN_TIMEOUT=5/GRUB_HIDDEN_TIMEOUT=1/g' /etc/default/grub
+#sudo sed -i -e 's/GRUB_TIMEOUT=5/GRUB_TIMEOUT=0/g' /etc/default/grub
+#sudo sed -i -e 's/GRUB_CMDLINE_LINUX_DEFAULT="quiet"/GRUB_CMDLINE_LINUX_DEFAULT="quiet loglevel=3 udev.log-priority=3 vt.global_cursor_default=0"/g' /etc/default/grub
+#sudo grub-mkconfig -o /boot/grub/grub.cfg
+#sudo sed -i -e 's/echo/#echo/g' /boot/grub/grub.cfg
 #Systemd fsck
 sudo cp /usr/lib/systemd/system/systemd-fsck-root.service /etc/systemd/system/
 sudo cp /usr/lib/systemd/system/systemd-fsck@.service /etc/systemd/system/
