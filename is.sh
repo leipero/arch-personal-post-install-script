@@ -17,13 +17,13 @@ CLUTTER_VBLANK=none
 QT_QPA_PLATFORMTHEME=qt5ct" | sudo tee -a /etc/environment
 
 #X.Org
-echo "Section "Device"
+echo 'Section "Device"
 	Identifier "Radeon"
 	Driver "radeon"
 #	Option "AccelMethod" "exa"
 #	Option "TearFree" "on"
 #	Option "DRI" "2"
-EndSection" | sudo tee /etc/X11/xorg.conf.d/20-radeon.conf
+EndSection' | sudo tee /etc/X11/xorg.conf.d/20-radeon.conf
 
 #Virtuelna memorija (podrazumevano "60") / Virtual memory (default "60")
 echo "vm.swappiness=0" | sudo tee /etc/sysctl.d/99-sysctl.conf
