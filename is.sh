@@ -4,7 +4,7 @@ export LC_ALL=C
 
 #Paketi / Packages
 sudo pacman -Syyu
-sudo pacman -S --noconfirm xf86-video-ati lib32-mesa mesa-demos 
+sudo pacman -S --noconfirm lib32-mesa mesa-demos mesa-vdpau lib32-mesa-vdpau
 sudo pacman -S --noconfirm ufw ffmpegthumbnailer gst-libav gst-plugins-base gst-plugins-good gtk-engine-murrine ntfs-3g gksu qt4 p7zip unrar qt5ct youtube-dl mpv file-roller xorg-fonts-type1 acpid dosfstools gparted plank ttf-freefont ttf-dejavu ttf-sazanami ttf-fireflysung noto-fonts-emoji ttf-symbola xorg-xlsfonts dnsmasq qt5-styleplugins clementine transmission-gtk firefox firefox-i18n-sr obs-studio wine-staging-nine chromium snes9x-gtk dolphin-emu nestopia pcsxr
 sudo pacman -S --noconfirm lib32-libpulse lib32-openal lib32-gnutls lib32-mpg123 lib32-libxml2 lib32-lcms2 lib32-giflib lib32-libpng lib32-alsa-lib lib32-alsa-plugins lib32-nss lib32-gtk2 lib32-gtk3 lib32-libcanberra lib32-gconf lib32-dbus-glib lib32-libnm-glib lib32-libudev0-shim libpng12 lib32-libpng12 lib32-libcurl-gnutls lib32-libcurl-compat lib32-libstdc++5 lib32-libxv lib32-ncurses lib32-sdl lib32-zlib lib32-libgcrypt lib32-libgcrypt15
 
@@ -17,13 +17,13 @@ CLUTTER_VBLANK=none
 QT_QPA_PLATFORMTHEME=qt5ct" | sudo tee -a /etc/environment
 
 #X.Org
-echo 'Section "Device"
-	Identifier "Radeon"
-	Driver "radeon"
+#echo 'Section "Device"
+#	Identifier "Radeon"
+#	Driver "radeon"
 #	Option "AccelMethod" "exa"
 #	Option "TearFree" "on"
 #	Option "DRI" "2"
-EndSection' | sudo tee /etc/X11/xorg.conf.d/20-radeon.conf
+#EndSection' | sudo tee /etc/X11/xorg.conf.d/20-radeon.conf
 
 #Virtuelna memorija (podrazumevano "60") / Virtual memory (default "60")
 echo "vm.swappiness=0" | sudo tee /etc/sysctl.d/99-sysctl.conf
@@ -176,7 +176,7 @@ slang=sr,en,eng
 sub-codepage=utf8:cp1250
 #sub-codepage=iso8859-15
 loop-playlist=inf
-vo=x11
+vo=vdpau
 #hwdec=vaapi" > ~/.mpv/mpv.conf
 echo "MOUSE_BTN3 add volume 5
 MOUSE_BTN4 add volume -5" > ~/.mpv/input.conf
