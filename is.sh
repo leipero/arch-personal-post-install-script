@@ -37,7 +37,7 @@ sudo sed -i -e 's/#PACKAGER="John Doe <john@doe.com>"/PACKAGER="lpr1"/g' /etc/ma
 
 #AUR: Installation of "trizen" package / Instalacija "trizen" paketa
 git clone https://aur.archlinux.org/trizen.git
-cd ~/trizen
+cd trizen
 makepkg -si --noconfirm
 
 #Reserved EXT4 space / Rezervisan EXT4 prostor
