@@ -2,12 +2,12 @@
 
 export LC_ALL=C
 
-#Mesa (Open Source drivers, enable and change if needed)
-#sudo pacman -Syyu
-#sudo pacman -S --noconfirm lib32-mesa mesa-demos mesa-vdpau lib32-mesa-vdpau
-#Packages / Paketi
+#Updates / Ažuriranja
 sudo pacman -Syyu
-sudo pacman -S --noconfirm ufw ffmpegthumbnailer gst-libav gst-plugins-base gst-plugins-good gtk-engine-murrine ntfs-3g gksu qt4 p7zip unrar qt5ct youtube-dl mpv file-roller xorg-fonts-type1 acpid dosfstools gparted plank ttf-freefont ttf-dejavu ttf-sazanami ttf-fireflysung noto-fonts-emoji ttf-symbola xorg-xlsfonts dnsmasq qt5-styleplugins clementine transmission-gtk firefox firefox-i18n-sr obs-studio wine-staging-nine chromium snes9x-gtk dolphin-emu nestopia pcsxr
+#Mesa (Open Source drivers, enable and change if needed)
+sudo pacman -S --noconfirm lib32-mesa mesa-demos mesa-vdpau lib32-mesa-vdpau
+#Packages / Paketi
+sudo pacman -S --noconfirm git ufw ffmpegthumbnailer gst-libav gst-plugins-base gst-plugins-good gtk-engine-murrine ntfs-3g gksu qt4 p7zip unrar qt5ct youtube-dl mpv file-roller xorg-fonts-type1 acpid dosfstools gparted plank ttf-freefont ttf-dejavu ttf-sazanami ttf-fireflysung noto-fonts-emoji ttf-symbola xorg-xlsfonts dnsmasq qt5-styleplugins clementine transmission-gtk firefox firefox-i18n-sr obs-studio wine-staging-nine chromium snes9x-gtk dolphin-emu nestopia pcsxr
 sudo pacman -S --noconfirm lib32-libpulse lib32-openal lib32-gnutls lib32-mpg123 lib32-libxml2 lib32-lcms2 lib32-giflib lib32-libpng lib32-alsa-lib lib32-alsa-plugins lib32-nss lib32-gtk2 lib32-gtk3 lib32-libcanberra lib32-gconf lib32-dbus-glib lib32-libnm-glib lib32-libudev0-shim libpng12 lib32-libpng12 lib32-libcurl-gnutls lib32-libcurl-compat lib32-libstdc++5 lib32-libxv lib32-ncurses lib32-sdl lib32-zlib lib32-libgcrypt lib32-libgcrypt15
 
 #fstab automount of device "sdxy" (enable-change for your device) / fstab kačenje uređaja "sdxy"
@@ -30,19 +30,15 @@ QT_QPA_PLATFORMTHEME=qt5ct" | sudo tee -a /etc/environment
 #Virtual memory (default "60", "0" = disabled) / Virtuelna memorija (podrazumevano "60")
 #echo "vm.swappiness=0" | sudo tee /etc/sysctl.d/99-sysctl.conf
 
-#AUR support / AUR podrška
-echo "[archlinuxfr]
-SigLevel = Optional TrustedOnly
-Server = http://repo.archlinux.fr/\$arch" | sudo tee -a /etc/pacman.conf
-
 #Number of cores for AUR (-j3 = 2 cores) / Broj jezgara za AUR (-j3 = 2 jezgra)
 #Change "-j5" to your number of cores + 1
 sudo sed -i -e 's/#MAKEFLAGS="-j2"/MAKEFLAGS="-j5"/g' /etc/makepkg.conf
 sudo sed -i -e 's/#PACKAGER="John Doe <john@doe.com>"/PACKAGER="lpr1"/g' /etc/makepkg.conf
 
-#Synchronization and installation of "yaourt" package / Sinhronizacija i instalacija "yaourt" paketa
-sudo pacman -Syy
-sudo pacman -S --noconfirm yaourt
+#AUR: Installation of "trizen" package / Instalacija "trizen" paketa
+git clone https://aur.archlinux.org/trizen.git
+cd ~/trizen
+makepkg -si --noconfirm
 
 #Reserved EXT4 space / Rezervisan EXT4 prostor
 #sudo tune2fs -m 0 /dev/sda2
@@ -54,7 +50,7 @@ sudo systemctl enable fstrim.timer
 #GDM onemogući "wayland" / GDM disable "wayland"
 #sudo sed -i -e 's/#WaylandEnable=false/WaylandEnable=false/g' /etc/gdm/custom.conf
 
-#Zaštitni zid / Uncomplicated firewall
+#Uncomplicated firewall / Zaštitni zid
 sudo ufw default deny
 sudo ufw allow SSH
 sudo ufw allow transmision
@@ -94,16 +90,16 @@ sudo sed -i -e 's/echo/#echo/g' /boot/grub/grub.cfg
 sudo pacman -Rsn --noconfirm gnome-2048 aisleriot atomix gnome-chess five-or-more hitori iagno gnome-klotski lightsoff gnome-mahjongg gnome-mines gnome-nibbles quadrapassel four-in-a-row gnome-robots gnome-sudoku swell-foop tali gnome-taquin gnome-tetravex anjuta
 
 #AUR packages / AUR paketi
-yaourt -S --noconfirm gnome-mpv
-yaourt -S --noconfirm joystickwake-git
-yaourt -S --noconfirm neofetch
-yaourt -S --noconfirm numix-circle-icon-theme-git
-yaourt -S --noconfirm adg-gtk-theme
-yaourt -S --noconfirm numix-folders-git
-yaourt -S --noconfirm gnome-terminal-csd1
+trizen -S --noconfirm gnome-mpv
+trizen -S --noconfirm joystickwake-git
+trizen -S --noconfirm neofetch
+trizen -S --noconfirm numix-circle-icon-theme-git
+trizen -S --noconfirm adg-gtk-theme
+trizen -S --noconfirm numix-folders-git
+trizen -S --noconfirm gnome-terminal-csd1
 
 #For gnome-terminal-csd1 / Za gnome-terminal-csd1
-cd /tmp/yaourt-tmp-$USER
+cd /tmp/trizen-$USER
 yes | sudo pacman -U gnome-terminal-csd1-*.pkg.tar.xz
 
 #Numix-Folders
@@ -129,7 +125,7 @@ echo '<driconf>
 </driconf>' > ~/.drirc
 
 #GNOME 3 specific setings / GNOM 3 podešavanja
-gsettings set org.gnome.desktop.background picture-uri 'file:///usr/share/backgrounds/gnome/Waterfalls.jpg'
+gsettings set org.gnome.desktop.background picture-uri 'file:///usr/share/backgrounds/gnome/Icescape.jpg'
 gsettings set org.gnome.desktop.interface clock-show-date 'true'
 gsettings set org.gnome.desktop.interface gtk-theme 'AdG-Light'
 gsettings set org.gnome.desktop.interface icon-theme 'Numix-Circle-Light'
