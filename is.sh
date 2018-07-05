@@ -2,21 +2,23 @@
 
 export LC_ALL=C
 
-#Paketi / Packages
+#Mesa (Open Source drivers, enable and change if needed)
+#sudo pacman -Syyu
+#sudo pacman -S --noconfirm lib32-mesa mesa-demos mesa-vdpau lib32-mesa-vdpau
+#Packages / Paketi
 sudo pacman -Syyu
-sudo pacman -S --noconfirm lib32-mesa mesa-demos mesa-vdpau lib32-mesa-vdpau
 sudo pacman -S --noconfirm ufw ffmpegthumbnailer gst-libav gst-plugins-base gst-plugins-good gtk-engine-murrine ntfs-3g gksu qt4 p7zip unrar qt5ct youtube-dl mpv file-roller xorg-fonts-type1 acpid dosfstools gparted plank ttf-freefont ttf-dejavu ttf-sazanami ttf-fireflysung noto-fonts-emoji ttf-symbola xorg-xlsfonts dnsmasq qt5-styleplugins clementine transmission-gtk firefox firefox-i18n-sr obs-studio wine-staging-nine chromium snes9x-gtk dolphin-emu nestopia pcsxr
 sudo pacman -S --noconfirm lib32-libpulse lib32-openal lib32-gnutls lib32-mpg123 lib32-libxml2 lib32-lcms2 lib32-giflib lib32-libpng lib32-alsa-lib lib32-alsa-plugins lib32-nss lib32-gtk2 lib32-gtk3 lib32-libcanberra lib32-gconf lib32-dbus-glib lib32-libnm-glib lib32-libudev0-shim libpng12 lib32-libpng12 lib32-libcurl-gnutls lib32-libcurl-compat lib32-libstdc++5 lib32-libxv lib32-ncurses lib32-sdl lib32-zlib lib32-libgcrypt lib32-libgcrypt15
 
-#fstab kačenje uređaja "sdxy" / fstab automount of device "sdxy"
-echo "/dev/sdb1               /media/sdb1     ext4            defaults                        0 2" | sudo tee -a /etc/fstab
+#fstab automount of device "sdxy" (enable-change for your device) / fstab kačenje uređaja "sdxy"
+#echo "/dev/sdb1               /media/sdb1     ext4            defaults                        0 2" | sudo tee -a /etc/fstab
 
-#Okruženje / Environment (mutter/clutter vblank disabled for GNOME based DE's)
+#Environment (mutter/clutter vblank disabled for GNOME based DE's) / Okruženje
 echo "#CLUTTER_DEFAULT_FPS=120
 CLUTTER_VBLANK=none
 QT_QPA_PLATFORMTHEME=qt5ct" | sudo tee -a /etc/environment
 
-#X.Org
+#X.Org (NOT NEEDED MOST OF THE TIME)
 #echo 'Section "Device"
 #	Identifier "Radeon"
 #	Driver "radeon"
@@ -25,27 +27,28 @@ QT_QPA_PLATFORMTHEME=qt5ct" | sudo tee -a /etc/environment
 #	Option "DRI" "2"
 #EndSection' | sudo tee /etc/X11/xorg.conf.d/20-radeon.conf
 
-#Virtuelna memorija (podrazumevano "60") / Virtual memory (default "60")
-echo "vm.swappiness=0" | sudo tee /etc/sysctl.d/99-sysctl.conf
+#Virtual memory (default "60", "0" = disabled) / Virtuelna memorija (podrazumevano "60")
+#echo "vm.swappiness=0" | sudo tee /etc/sysctl.d/99-sysctl.conf
 
-#AUR
+#AUR support / AUR podrška
 echo "[archlinuxfr]
 SigLevel = Optional TrustedOnly
 Server = http://repo.archlinux.fr/\$arch" | sudo tee -a /etc/pacman.conf
 
-#Broj jezgara za AUR (-j3 = 2 jezgra) / Number of cores for AUR (-j3 = 2 cores)
+#Number of cores for AUR (-j3 = 2 cores) / Broj jezgara za AUR (-j3 = 2 jezgra)
+#Change "-j5" to your number of cores + 1
 sudo sed -i -e 's/#MAKEFLAGS="-j2"/MAKEFLAGS="-j5"/g' /etc/makepkg.conf
 sudo sed -i -e 's/#PACKAGER="John Doe <john@doe.com>"/PACKAGER="lpr1"/g' /etc/makepkg.conf
 
-#Sinhronizacija i instalacija "yaourt" paketa / Synchronization and installation of "yaourt" package
+#Synchronization and installation of "yaourt" package / Sinhronizacija i instalacija "yaourt" paketa
 sudo pacman -Syy
 sudo pacman -S --noconfirm yaourt
 
-#Rezervisan EXT4 prostor / Reserved EXT4 space
-sudo tune2fs -m 0 /dev/sda2
-sudo tune2fs -m 0 /dev/sdb1
+#Reserved EXT4 space / Rezervisan EXT4 prostor
+#sudo tune2fs -m 0 /dev/sda2
+#sudo tune2fs -m 0 /dev/sdb1
 
-#Omogući TRIM podršku / Enable TRIM support
+#Enable TRIM support / Omogući TRIM podršku
 sudo systemctl enable fstrim.timer
 
 #GDM onemogući "wayland" / GDM disable "wayland"
@@ -58,38 +61,39 @@ sudo ufw allow transmision
 sudo ufw enable
 sudo systemctl enable ufw
 
-#DNS mrežna podešavanja / DNS network settings (systemd)
+#DNS network settings (systemd) / DNS mrežna podešavanja
 echo "[main]
 dns=systemd-resolved" | sudo tee -a /etc/NetworkManager/NetworkManager.conf
 sudo systemctl enable systemd-networkd.service
 sudo systemctl enable systemd-resolved.service
 
-#Tiho pokretanje / Silent boot
+#Silent boot / Tiho pokretanje
 sudo sed -i -e 's/ fsck//g' /etc/mkinitcpio.conf
 sudo mkinitcpio -p linux
-#sudo sed -i -e 's/#GRUB_HIDDEN_TIMEOUT=5/GRUB_HIDDEN_TIMEOUT=1/g' /etc/default/grub
-#sudo sed -i -e 's/GRUB_TIMEOUT=5/GRUB_TIMEOUT=0/g' /etc/default/grub
-#sudo sed -i -e 's/GRUB_CMDLINE_LINUX_DEFAULT="quiet"/GRUB_CMDLINE_LINUX_DEFAULT="quiet loglevel=3 udev.log-priority=3 vt.global_cursor_default=0"/g' /etc/default/grub
-#sudo grub-mkconfig -o /boot/grub/grub.cfg
-#sudo sed -i -e 's/echo/#echo/g' /boot/grub/grub.cfg
-#Systemd fsck
-sudo cp /usr/lib/systemd/system/systemd-fsck-root.service /etc/systemd/system/
-sudo cp /usr/lib/systemd/system/systemd-fsck@.service /etc/systemd/system/
-fsckrsd='/etc/systemd/system/systemd-fsck-root.service'
-fsckd='/etc/systemd/system/systemd-fsck@.service'
-nfsckrl='ExecStart=/usr/lib/systemd/systemd-fsck\
-StandardOutput=null\
-StandardError=journal+console'
-nfsckl='ExecStart=/usr/lib/systemd/systemd-fsck %f\
-StandardOutput=null\
-StandardError=journal+console'
-sudo sed -i "s|ExecStart=/usr/lib/systemd/systemd-fsck|$nfsckrl|g" $fsckrsd
-sudo sed -i "s|ExecStart=/usr/lib/systemd/systemd-fsck %f|$nfsckl|g" $fsckd
+sudo sed -i -e 's/#GRUB_HIDDEN_TIMEOUT=5/GRUB_HIDDEN_TIMEOUT=1/g' /etc/default/grub
+sudo sed -i -e 's/GRUB_TIMEOUT=5/GRUB_TIMEOUT=0/g' /etc/default/grub
+sudo sed -i -e 's/GRUB_CMDLINE_LINUX_DEFAULT="quiet"/GRUB_CMDLINE_LINUX_DEFAULT="quiet loglevel=3 udev.log-priority=3 vt.global_cursor_default=0"/g' /etc/default/grub
+sudo grub-mkconfig -o /boot/grub/grub.cfg
+sudo sed -i -e 's/echo/#echo/g' /boot/grub/grub.cfg
 
-#Uklanjanje nepotrebnih paketa / Removal of unnecassary packages
+#Systemd fsck (ONLY FOR SYSTEMD BOOT)
+#sudo cp /usr/lib/systemd/system/systemd-fsck-root.service /etc/systemd/system/
+#sudo cp /usr/lib/systemd/system/systemd-fsck@.service /etc/systemd/system/
+#fsckrsd='/etc/systemd/system/systemd-fsck-root.service'
+#fsckd='/etc/systemd/system/systemd-fsck@.service'
+#nfsckrl='ExecStart=/usr/lib/systemd/systemd-fsck\
+#StandardOutput=null\
+#StandardError=journal+console'
+#nfsckl='ExecStart=/usr/lib/systemd/systemd-fsck %f\
+#StandardOutput=null\
+#StandardError=journal+console'
+#sudo sed -i "s|ExecStart=/usr/lib/systemd/systemd-fsck|$nfsckrl|g" $fsckrsd
+#sudo sed -i "s|ExecStart=/usr/lib/systemd/systemd-fsck %f|$nfsckl|g" $fsckd
+
+#Removal of unnecassary packages / Uklanjanje nepotrebnih paketa
 sudo pacman -Rsn --noconfirm gnome-2048 aisleriot atomix gnome-chess five-or-more hitori iagno gnome-klotski lightsoff gnome-mahjongg gnome-mines gnome-nibbles quadrapassel four-in-a-row gnome-robots gnome-sudoku swell-foop tali gnome-taquin gnome-tetravex anjuta
 
-#AUR paketi / AUR packages
+#AUR packages / AUR paketi
 yaourt -S --noconfirm gnome-mpv
 yaourt -S --noconfirm joystickwake-git
 yaourt -S --noconfirm neofetch
@@ -98,7 +102,7 @@ yaourt -S --noconfirm adg-gtk-theme
 yaourt -S --noconfirm numix-folders-git
 yaourt -S --noconfirm gnome-terminal-csd1
 
-#Za gnome-terminal-csd1 / For gnome-terminal-csd1
+#For gnome-terminal-csd1 / Za gnome-terminal-csd1
 cd /tmp/yaourt-tmp-$USER
 yes | sudo pacman -U gnome-terminal-csd1-*.pkg.tar.xz
 
@@ -112,7 +116,7 @@ bdbdbd
 sudo numix-folders -p -t
 sudo pacman -Rs --noconfirm numix-folders-git
 
-#Gašenje vertikalne sinhronizacije / Disabling vertical synchronization
+#Disabling vertical synchronization / Gašenje vertikalne sinhronizacije
 echo '<driconf>
     <device screen="0" driver="dri2">
         <application name="Default">
@@ -124,7 +128,7 @@ echo '<driconf>
     </device>
 </driconf>' > ~/.drirc
 
-#GNOM 3 podešavanja / GNOME 3 specific setings
+#GNOME 3 specific setings / GNOM 3 podešavanja
 gsettings set org.gnome.desktop.background picture-uri 'file:///usr/share/backgrounds/gnome/Waterfalls.jpg'
 gsettings set org.gnome.desktop.interface clock-show-date 'true'
 gsettings set org.gnome.desktop.interface gtk-theme 'AdG-Light'
@@ -166,7 +170,7 @@ PS1='[\[\e[1;32m\]\u@\h\[\e[0m\]\[\e[0;34m\] \W\[\e[0m\]]\\$ '
 
 neofetch" > ~/.bashrc
 
-#MPV podešavanja / MPV settings
+#MPV settings / MPV podešavanja
 mkdir ~/.mpv
 echo "# Set language.
 slang=sr,en,eng
@@ -185,17 +189,17 @@ gsettings set io.github.GnomeMpv mpv-config-file ~/.mpv/mpv.conf
 gsettings set io.github.GnomeMpv mpv-input-config-enable 'true'
 gsettings set io.github.GnomeMpv mpv-input-config-file ~/.mpv/input.conf
 
-#Gašenje skripta / Shutdown script
-mkdir ~/.skripte
-echo "#!/bin/bash
-sudo shutdown -h +90
-exec \$SHELL" > ~/.skripte/gasi.sh
-chmod +x ~/.skripte/gasi.sh
-echo "[Desktop Entry]
-Name=Shutdown
-Exec=gnome-terminal -e /home/simx/.skripte/gasi.sh
-Icon=/home/simx/Слике/Ikonice/system-config-boot.svg
-Type=Application" > ~/.local/share/applications/shutdown.desktop
+#Shutdown script / Gašenje skripta
+#mkdir ~/.skripte
+#echo "#!/bin/bash
+#sudo shutdown -h +90
+#exec \$SHELL" > ~/.skripte/gasi.sh
+#chmod +x ~/.skripte/gasi.sh
+#echo "[Desktop Entry]
+#Name=Shutdown
+#Exec=gnome-terminal -e /home/simx/.skripte/gasi.sh
+#Icon=/home/simx/Слике/Ikonice/system-config-boot.svg
+#Type=Application" > ~/.local/share/applications/shutdown.desktop
 
 unset LC_ALL
 
