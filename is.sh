@@ -93,13 +93,14 @@ sudo pacman -Rsn --noconfirm gnome-2048 aisleriot atomix gnome-chess five-or-mor
 trizen -S --noconfirm gnome-mpv
 trizen -S --noconfirm joystickwake-git
 trizen -S --noconfirm neofetch
+trizen -S --noconfirm numix-icon-theme-git
 trizen -S --noconfirm numix-circle-icon-theme-git
 trizen -S --noconfirm adg-gtk-theme
 trizen -S --noconfirm numix-folders-git
 trizen -S --noconfirm gnome-terminal-csd1
 
 #For gnome-terminal-csd1 / Za gnome-terminal-csd1
-cd /tmp/trizen-$USER
+cd /tmp/trizen-$USER/gnome-terminal-csd1/
 yes | sudo pacman -U gnome-terminal-csd1-*.pkg.tar.xz
 
 #Numix-Folders
