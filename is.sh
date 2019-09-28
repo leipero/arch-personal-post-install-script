@@ -91,7 +91,7 @@ sudo sed -i -e 's/echo/#echo/g' /boot/grub/grub.cfg
 #sudo sed -i "s|ExecStart=/usr/lib/systemd/systemd-fsck %f|$nfsckl|g" $fsckd
 
 #Removal of unnecassary packages / Uklanjanje nepotrebnih paketa
-sudo pacman -Rsn --noconfirm gnome-2048 aisleriot atomix gnome-chess five-or-more hitori iagno gnome-klotski lightsoff gnome-mahjongg gnome-mines gnome-nibbles quadrapassel four-in-a-row gnome-robots gnome-sudoku swell-foop tali gnome-taquin gnome-tetravex anjuta
+sudo pacman -Rsn --noconfirm gnome-chess five-or-more hitori iagno gnome-klotski lightsoff gnome-mahjongg gnome-mines gnome-nibbles quadrapassel four-in-a-row gnome-robots gnome-sudoku swell-foop tali gnome-taquin gnome-tetravex
 
 #AUR packages / AUR paketi
 yay -S --noconfirm joystickwake-git
@@ -137,21 +137,20 @@ gsettings set org.gnome.desktop.search-providers disable-external 'true'
 gsettings set org.gnome.desktop.session idle-delay '1200'
 gsettings set org.gnome.desktop.wm.preferences action-middle-click-titlebar 'none'
 gsettings set org.gnome.desktop.wm.preferences button-layout 'appmenu:minimize,maximize,close'
-gsettings set org.gnome.epiphany homepage-url 'about:blank'
-gsettings set org.gnome.epiphany restore-session-policy 'crashed'
+gsettings set org.gnome.Epiphany homepage-url 'about:blank'
+gsettings set org.gnome.Epiphany restore-session-policy 'crashed'
 gsettings set org.gnome.gnome-system-monitor current-tab 'resources'
 gsettings set org.gnome.mutter center-new-windows 'true'
 gsettings set org.gnome.nautilus.preferences executable-text-activation 'ask'
 gsettings set org.gnome.nautilus.window-state geometry '834x567+547+220'
 gsettings set org.gnome.settings-daemon.peripherals.keyboard numlock-state 'on'
-gsettings set org.gnome.terminal.legacy default-show-menubar 'false'
+gsettings set org.gnome.Terminal.Legacy.Settings default-show-menubar 'false'
 gsettings set org.gnome.shell enabled-extensions "['alternate-tab@gnome-shell-extensions.gcampax.github.com','user-theme@gnome-shell-extensions.gcampax.github.com']"
 gsettings set org.gnome.shell.extensions.user-theme name 'Materia-light'
-gsettings set org.gtk.settings.file-chooser sidebar-width '192'
-gsettings set org.gtk.settings.file-chooser sort-directories-first 'true'
-gsettings set org.gtk.settings.file-chooser window-position '(574, 231)'
-gsettings set org.gtk.settings.file-chooser window-size '(773, 570)'
-gconftool-2 --type string --set /apps/metacity/general/action_middle_click_titlebar 'none'
+gsettings set org.gtk.Settings.FileChooser sidebar-width '192'
+gsettings set org.gtk.Settings.FileChooser sort-directories-first 'true'
+gsettings set org.gtk.Settings.FileChooser window-position '(574, 231)'
+gsettings set org.gtk.Settings.FileChooser window-size '(773, 570)'
 
 #Terminal/bashrc
 echo "#
