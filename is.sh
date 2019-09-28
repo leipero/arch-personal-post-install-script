@@ -195,6 +195,11 @@ MOUSE_BTN4 add volume -5" > ~/.mpv/input.conf
 #Icon=/home/simx/Слике/Ikonice/system-config-boot.svg
 #Type=Application" > ~/.local/share/applications/shutdown.desktop
 
+#GDM Theme:
+GTK_THEME=$(gsettings get org.gnome.desktop.interface gtk-theme | sed "s/'//g")
+cd /usr/share/themes/${GTK_THEME}/gnome-shell
+sudo glib-compile-resources --target=/usr/share/gnome-shell/gnome-shell-theme.gresource gnome-shell-theme.gresource.xml
+
 unset LC_ALL
 
 exit 0
