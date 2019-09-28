@@ -5,9 +5,9 @@ export LC_ALL=C
 #Updates / Ažuriranja
 sudo pacman -Syyu
 #Mesa (Open Source drivers, enable and change if needed)
-sudo pacman -S --noconfirm lib32-mesa mesa-demos mesa-vdpau lib32-mesa-vdpau
+sudo pacman -S --noconfirm lib32-mesa mesa-demos libva-mesa-driver glu lib32-glu opencl-mesa
 #Packages / Paketi
-sudo pacman -S --noconfirm git ufw ffmpegthumbnailer gst-libav gst-plugins-base gst-plugins-good gtk-engine-murrine ntfs-3g gksu qt4 p7zip unrar qt5ct youtube-dl mpv file-roller xorg-fonts-type1 acpid dosfstools gparted plank ttf-freefont ttf-dejavu ttf-sazanami ttf-fireflysung noto-fonts-emoji ttf-symbola xorg-xlsfonts dnsmasq qt5-styleplugins clementine transmission-gtk firefox firefox-i18n-sr obs-studio wine-staging-nine chromium snes9x-gtk dolphin-emu nestopia pcsxr
+sudo pacman -S --noconfirm git ufw ffmpegthumbnailer gst-libav gst-plugins-base gst-plugins-good gtk-engine-murrine ntfs-3g p7zip unrar qt5ct youtube-dl mpv file-roller xorg-fonts-type1 acpid dosfstools gparted plank ttf-freefont ttf-dejavu ttf-sazanami ttf-fireflysung noto-fonts-emoji ttf-symbola xorg-xlsfonts qt5-styleplugins transmission-gtk firefox firefox-i18n-sr chromium obs-studio wine-staging wine-nine materia-gtk-theme
 sudo pacman -S --noconfirm lib32-libpulse lib32-openal lib32-gnutls lib32-mpg123 lib32-libxml2 lib32-lcms2 lib32-giflib lib32-libpng lib32-alsa-lib lib32-alsa-plugins lib32-nss lib32-gtk2 lib32-gtk3 lib32-libcanberra lib32-gconf lib32-dbus-glib lib32-libnm-glib lib32-libudev0-shim libpng12 lib32-libpng12 lib32-libcurl-gnutls lib32-libcurl-compat lib32-libstdc++5 lib32-libxv lib32-ncurses lib32-sdl lib32-zlib lib32-libgcrypt lib32-libgcrypt15
 
 #fstab automount of device "sdxy" (enable-change for your device) / fstab kačenje uređaja "sdxy"
@@ -15,10 +15,14 @@ sudo pacman -S --noconfirm lib32-libpulse lib32-openal lib32-gnutls lib32-mpg123
 
 #Environment (mutter/clutter vblank disabled for GNOME based DE's) / Okruženje
 echo "#CLUTTER_DEFAULT_FPS=120
+#CLUTTER_PAINT=disable-clipped-redraws:disable-culling
+#R600_DEBUG=nodma
+#MESA_GL_VERSION_OVERRIDE=4.5
+#MESA_GLSL_VERSION_OVERRIDE=450
 CLUTTER_VBLANK=none
 QT_QPA_PLATFORMTHEME=qt5ct" | sudo tee -a /etc/environment
 
-#X.Org (NOT NEEDED MOST OF THE TIME)
+#X.Org (NOT NEEDED ANYMORE)
 #echo 'Section "Device"
 #	Identifier "Radeon"
 #	Driver "radeon"
@@ -90,18 +94,15 @@ sudo sed -i -e 's/echo/#echo/g' /boot/grub/grub.cfg
 sudo pacman -Rsn --noconfirm gnome-2048 aisleriot atomix gnome-chess five-or-more hitori iagno gnome-klotski lightsoff gnome-mahjongg gnome-mines gnome-nibbles quadrapassel four-in-a-row gnome-robots gnome-sudoku swell-foop tali gnome-taquin gnome-tetravex anjuta
 
 #AUR packages / AUR paketi
-trizen -S --noconfirm gnome-mpv
 trizen -S --noconfirm joystickwake-git
 trizen -S --noconfirm neofetch
 trizen -S --noconfirm numix-icon-theme-git
 trizen -S --noconfirm numix-circle-icon-theme-git
-trizen -S --noconfirm adg-gtk-theme
 trizen -S --noconfirm numix-folders-git
-trizen -S --noconfirm gnome-terminal-csd1
 
 #For gnome-terminal-csd1 / Za gnome-terminal-csd1
-cd /tmp/trizen-$USER/gnome-terminal-csd1/
-yes | sudo pacman -U gnome-terminal-csd1-*.pkg.tar.xz
+#cd /tmp/trizen-$USER/gnome-terminal-csd1/
+#yes | sudo pacman -U gnome-terminal-csd1-*.pkg.tar.xz
 
 #Numix-Folders
 echo "6
@@ -126,32 +127,30 @@ echo '<driconf>
 </driconf>' > ~/.drirc
 
 #GNOME 3 specific setings / GNOM 3 podešavanja
-gsettings set org.gnome.desktop.background picture-uri 'file:///usr/share/backgrounds/gnome/Icescape.jpg'
 gsettings set org.gnome.desktop.interface clock-show-date 'true'
-gsettings set org.gnome.desktop.interface gtk-theme 'AdG-Light'
-gsettings set org.gnome.desktop.interface icon-theme 'Numix-Circle-Light'
+gsettings set org.gnome.desktop.interface gtk-theme 'Materia-light'
+gsettings set org.gnome.desktop.interface icon-theme 'Numix-Circle'
 gsettings set org.gnome.desktop.media-handling autorun-never 'true'
 gsettings set org.gnome.desktop.privacy remember-recent-files 'false'
 gsettings set org.gnome.desktop.screensaver lock-enabled 'false'
 gsettings set org.gnome.desktop.search-providers disable-external 'true'
-gsettings set org.gnome.desktop.session idle-delay '900'
+gsettings set org.gnome.desktop.session idle-delay '1200'
 gsettings set org.gnome.desktop.wm.preferences action-middle-click-titlebar 'none'
 gsettings set org.gnome.desktop.wm.preferences button-layout 'appmenu:minimize,maximize,close'
+gsettings set org.gnome.epiphany homepage-url 'about:blank'
+gsettings set org.gnome.epiphany restore-session-policy 'crashed'
 gsettings set org.gnome.gnome-system-monitor current-tab 'resources'
-gsettings set org.gnome.Epiphany homepage-url 'about:blank'
-gsettings set org.gnome.Epiphany restore-session-policy 'crashed'
 gsettings set org.gnome.mutter center-new-windows 'true'
-gsettings set org.gnome.nautilus.preferences automatic-decompression 'false'
 gsettings set org.gnome.nautilus.preferences executable-text-activation 'ask'
-gsettings set org.gnome.nautilus.window-state geometry '834x560+548+230'
-gsettings set org.gnome.Terminal.Legacy.Settings default-show-menubar 'false'
+gsettings set org.gnome.nautilus.window-state geometry '834x567+547+220'
 gsettings set org.gnome.settings-daemon.peripherals.keyboard numlock-state 'on'
-gsettings set org.gnome.shell enabled-extensions "['alternate-tab@gnome-shell-extensions.gcampax.github.com', 'apps-menu@gnome-shell-extensions.gcampax.github.com', 'user-theme@gnome-shell-extensions.gcampax.github.com']"
-gsettings set org.gnome.shell.extensions.user-theme name 'AdG-Light'
-gsettings set org.gtk.Settings.FileChooser sort-directories-first 'true'
-gsettings set org.gtk.Settings.FileChooser sidebar-width '173'
-gsettings set org.gtk.Settings.FileChooser window-position '(245, 157)'
-gsettings set org.gtk.Settings.FileChooser window-size '(791, 597)'
+gsettings set org.gnome.terminal.legacy default-show-menubar 'false'
+gsettings set org.gnome.shell enabled-extensions "['alternate-tab@gnome-shell-extensions.gcampax.github.com','user-theme@gnome-shell-extensions.gcampax.github.com']"
+gsettings set org.gnome.shell.extensions.user-theme name 'Materia-light'
+gsettings set org.gtk.settings.file-chooser sidebar-width '192'
+gsettings set org.gtk.settings.file-chooser sort-directories-first 'true'
+gsettings set org.gtk.settings.file-chooser window-position '(574, 231)'
+gsettings set org.gtk.settings.file-chooser window-size '(773, 570)'
 gconftool-2 --type string --set /apps/metacity/general/action_middle_click_titlebar 'none'
 
 #Terminal/bashrc
@@ -175,21 +174,18 @@ slang=sr,en,eng
 # Change subtitle encoding. For Arabic subtitles use 'cp1256'.
 # If the file seems to be valid UTF-8, prefer UTF-8.
 sub-codepage=utf8:cp1250
-#sub-codepage=iso8859-15
+#sub-codepage=utf8:cp1251
 loop-playlist=inf
-vo=vdpau
-#hwdec=vaapi" > ~/.mpv/mpv.conf
+vo=xv
+hwdec=vaapi
+#mute=yes" > ~/.mpv/mpv.conf
 echo "MOUSE_BTN3 add volume 5
 MOUSE_BTN4 add volume -5" > ~/.mpv/input.conf
-gsettings set io.github.GnomeMpv mpv-config-enable 'true'
-gsettings set io.github.GnomeMpv mpv-config-file ~/.mpv/mpv.conf
-gsettings set io.github.GnomeMpv mpv-input-config-enable 'true'
-gsettings set io.github.GnomeMpv mpv-input-config-file ~/.mpv/input.conf
 
 #Shutdown script / Gašenje skripta
 #mkdir ~/.skripte
 #echo "#!/bin/bash
-#sudo shutdown -h +90
+#sudo shutdown -h +120
 #exec \$SHELL" > ~/.skripte/gasi.sh
 #chmod +x ~/.skripte/gasi.sh
 #echo "[Desktop Entry]
