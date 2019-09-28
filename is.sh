@@ -7,7 +7,7 @@ sudo pacman -Syyu
 #Mesa (Open Source drivers, enable and change if needed)
 sudo pacman -S --noconfirm lib32-mesa mesa-demos libva-mesa-driver glu lib32-glu opencl-mesa
 #Packages / Paketi
-sudo pacman -S --noconfirm git ufw ffmpegthumbnailer gst-libav gst-plugins-base gst-plugins-good gtk-engine-murrine ntfs-3g p7zip unrar qt5ct youtube-dl mpv file-roller xorg-fonts-type1 acpid dosfstools gparted plank ttf-freefont ttf-dejavu ttf-sazanami ttf-fireflysung noto-fonts-emoji xorg-xlsfonts qt5-styleplugins transmission-gtk firefox firefox-i18n-sr chromium obs-studio wine-staging wine-nine materia-gtk-theme
+sudo pacman -S --noconfirm git ufw ffmpegthumbnailer gst-libav gst-plugins-base gst-plugins-good gtk-engine-murrine ntfs-3g p7zip unrar qt5ct youtube-dl mpv file-roller xorg-fonts-type1 acpid dosfstools gparted ttf-freefont ttf-dejavu ttf-sazanami ttf-fireflysung noto-fonts-emoji xorg-xlsfonts qt5-styleplugins transmission-gtk firefox firefox-i18n-sr chromium obs-studio wine-staging wine-nine materia-gtk-theme
 sudo pacman -S --noconfirm lib32-libpulse lib32-openal lib32-gnutls lib32-mpg123 lib32-libxml2 lib32-lcms2 lib32-giflib lib32-libpng lib32-alsa-lib lib32-alsa-plugins lib32-nss lib32-gtk2 lib32-gtk3 lib32-libcanberra lib32-dbus-glib lib32-libnm-glib lib32-libudev0-shim libpng12 lib32-libpng12 lib32-libcurl-gnutls lib32-libcurl-compat lib32-libxv lib32-ncurses lib32-sdl lib32-zlib lib32-libgcrypt lib32-libgcrypt15
 
 #fstab automount of device "sdxy" (enable-change for your device) / fstab kačenje uređaja "sdxy"
@@ -199,6 +199,19 @@ MOUSE_BTN4 add volume -5" > ~/.mpv/input.conf
 GTK_THEME=$(gsettings get org.gnome.desktop.interface gtk-theme | sed "s/'//g")
 cd /usr/share/themes/${GTK_THEME}/gnome-shell
 sudo glib-compile-resources --target=/usr/share/gnome-shell/gnome-shell-theme.gresource gnome-shell-theme.gresource.xml
+
+#Auto clean package cache (paccache -h) / Automatsko čišćenje keša paketa (
+sudo mkdir /etc/pacman.d/hooks
+echo "[Trigger]
+Operation = Upgrade
+Operation = Install
+Operation = Remove
+Type = Package
+Target = *
+[Action]
+Description = Cleaning pacman cache...
+When = PostTransaction
+Exec = /usr/bin/paccache -ruk0" | sudo tee -a /etc/pacman.d/hooks/clean_package_cache.hook
 
 unset LC_ALL
 
