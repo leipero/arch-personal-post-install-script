@@ -100,10 +100,6 @@ yay -S --noconfirm numix-icon-theme-git
 yay -S --noconfirm numix-circle-icon-theme-git
 yay -S --noconfirm numix-folders-git
 
-#For gnome-terminal-csd1 / Za gnome-terminal-csd1
-#cd /tmp/trizen-$USER/gnome-terminal-csd1/
-#yes | sudo pacman -U gnome-terminal-csd1-*.pkg.tar.xz
-
 #Numix-Folders
 echo "6
 grey
@@ -200,7 +196,7 @@ GTK_THEME=$(gsettings get org.gnome.desktop.interface gtk-theme | sed "s/'//g")
 cd /usr/share/themes/${GTK_THEME}/gnome-shell
 sudo glib-compile-resources --target=/usr/share/gnome-shell/gnome-shell-theme.gresource gnome-shell-theme.gresource.xml
 
-#Auto clean package cache (paccache -h) / Automatsko čišćenje keša paketa (
+#Auto clean package cache (paccache -h) / Automatsko čišćenje keša paketa (paccache -h)
 sudo mkdir /etc/pacman.d/hooks
 echo "[Trigger]
 Operation = Upgrade
