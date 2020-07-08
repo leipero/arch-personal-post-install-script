@@ -207,7 +207,7 @@ Target = *
 [Action]
 Description = Cleaning pacman cache...
 When = PostTransaction
-Exec = /usr/bin/paccache -ruk0" | sudo tee -a /etc/pacman.d/hooks/clean_package_cache.hook
+Exec = /usr/bin/paccache -ruk0" | sudo tee -a /usr/share/libalpm/hooks/cleanup.hook
 
 unset LC_ALL
 
