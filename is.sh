@@ -173,8 +173,9 @@ slang=sr,en,eng
 sub-codepage=utf8:cp1250
 #sub-codepage=utf8:cp1251
 loop-playlist=inf
-vo=xv
-hwdec=vaapi
+#vo=gpu
+#hwdec=auto
+#hwdec-codecs=all
 #mute=yes" > ~/.mpv/mpv.conf
 echo "MOUSE_BTN3 add volume 5
 MOUSE_BTN4 add volume -5" > ~/.mpv/input.conf
