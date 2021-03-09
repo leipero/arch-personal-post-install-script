@@ -161,7 +161,7 @@ MOUSE_BTN4 add volume -5" > ~/.mpv/input.conf
 #Shutdown script / Gašenje skripta
 #mkdir ~/.skripte
 #echo "#!/bin/bash
-#sudo shutdown -h +120
+#shutdown -h +120
 #exec \$SHELL" > ~/.skripte/gasi.sh
 #chmod +x ~/.skripte/gasi.sh
 #echo "[Desktop Entry]
